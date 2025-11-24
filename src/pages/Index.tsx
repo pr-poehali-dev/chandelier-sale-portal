@@ -397,15 +397,50 @@ const Index = () => {
                     <Separator />
 
                     <div>
-                      <h4 className="text-sm font-medium mb-3">Цена: {priceRange[0].toLocaleString()} - {priceRange[1].toLocaleString()} ₽</h4>
-                      <Slider
-                        min={0}
-                        max={100000}
-                        step={1000}
-                        value={priceRange}
-                        onValueChange={setPriceRange}
-                        className="mt-4"
-                      />
+                      <h4 className="text-sm font-medium mb-3">Цена</h4>
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3">
+                          <div className="flex-1">
+                            <label className="text-xs text-muted-foreground mb-1 block">От</label>
+                            <div className="relative">
+                              <input
+                                type="number"
+                                value={priceRange[0]}
+                                onChange={(e) => {
+                                  const value = Math.max(0, Math.min(Number(e.target.value), priceRange[1]));
+                                  setPriceRange([value, priceRange[1]]);
+                                }}
+                                className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                                placeholder="0"
+                              />
+                              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">₽</span>
+                            </div>
+                          </div>
+                          <div className="flex-1">
+                            <label className="text-xs text-muted-foreground mb-1 block">До</label>
+                            <div className="relative">
+                              <input
+                                type="number"
+                                value={priceRange[1]}
+                                onChange={(e) => {
+                                  const value = Math.max(priceRange[0], Math.min(Number(e.target.value), 100000));
+                                  setPriceRange([priceRange[0], value]);
+                                }}
+                                className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-accent"
+                                placeholder="100000"
+                              />
+                              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">₽</span>
+                            </div>
+                          </div>
+                        </div>
+                        <Slider
+                          min={0}
+                          max={100000}
+                          step={1000}
+                          value={priceRange}
+                          onValueChange={setPriceRange}
+                        />
+                      </div>
                     </div>
 
                     <Button 
